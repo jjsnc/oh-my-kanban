@@ -27,12 +27,28 @@ const KanbanCard = ({ title, status }) => {
     </li>
   );
 };
-const KanbanNewCard = () => {
+
+const KanbanNewCard = ({ onSubmit }) => {
+  const [title, setTitle] = useState("");
+  const handleChange = (evt) => {
+    setTitle(evt.target.value);
+  };
+
+  const handleKeyDown = (evt) => {
+    if (evt.key === "Enter") {
+      onSubmit(title);
+    }
+  };
   return (
     <li className="kanban-card">
       <h3>添加新卡片</h3>
       <div className="card-title">
-        <input type="text" />
+        <input
+          type="text"
+          value={title}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+        />
       </div>
     </li>
   );
@@ -42,6 +58,10 @@ function App() {
   const [showAdd, setShowAdd] = useState(false);
   const handleAdd = (evt) => {
     setShowAdd(true);
+  };
+  const handleSubmit = (title) => {
+    todoList.unshift({ title, status: new Date().toDateString() });
+    setShowAdd(false);
   };
   return (
     <div className="App">
@@ -55,7 +75,7 @@ function App() {
             待处理<button onClick={handleAdd}>&#8853; 添加新卡片</button>
           </h2>
           <ul>
-            {showAdd && <KanbanNewCard />}
+            {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
             {todoList.map((props) => (
               <KanbanCard {...props} />
             ))}
