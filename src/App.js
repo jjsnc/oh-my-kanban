@@ -36,15 +36,27 @@ function App() {
       <main className="kanban-board">
         <section className="kanban-column column-todo">
           <h2>待处理</h2>
-          <ul>{todoList.map((item) => KanbanCard(item))}</ul>
+          <ul>
+            {todoList.map((props) => (
+              <KanbanCard {...props} />
+            ))}
+          </ul>
         </section>
         <section className="kanban-column column-ongoing">
           <h2>进行中</h2>
-          <ul>{ongoingList.map((item) => KanbanCard(item))}</ul>
+          <ul>
+            {ongoingList.map((props) => (
+              <KanbanCard {...props} />
+            ))}
+          </ul>
         </section>
         <section className="kanban-column column-done">
           <h2>已完成</h2>
-          <ul>{doneList.map((item) => KanbanCard(item))}</ul>
+          <ul>
+            {doneList.map((props) => (
+              <KanbanCard {...props} />
+            ))}
+          </ul>
         </section>
       </main>
     </div>
