@@ -25,6 +25,16 @@ const KanbanCard = ({ title, status }) => {
     </li>
   );
 };
+const KanbanNewCard = () => {
+  return (
+    <li className="kanban-card">
+      <h3>添加新卡片</h3>
+      <div className="card-title">
+        <input type="text" />
+      </div>
+    </li>
+  );
+};
 
 function App() {
   return (
@@ -35,8 +45,11 @@ function App() {
       </header>
       <main className="kanban-board">
         <section className="kanban-column column-todo">
-          <h2>待处理</h2>
+          <h2>
+            待处理<button>&#8853; 添加新卡片</button>
+          </h2>
           <ul>
+            <KanbanNewCard />
             {todoList.map((props) => (
               <KanbanCard {...props} />
             ))}
