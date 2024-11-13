@@ -98,18 +98,18 @@ function App() {
           }
         >
           {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
-          {todoList.map((props, index) => (
-            <KanbanCard key={index} {...props} />
+          {todoList.map((props, ) => (
+            <KanbanCard key={props.title} {...props} />
           ))}
         </KanbanColumn>
         <KanbanColumn className="column-ongoing" title="进行中">
-          {ongoingList.map((props, index) => (
-            <KanbanCard key={index} {...props} />
+          {ongoingList.map((props, ) => (
+            <KanbanCard key={props.title} {...props} />
           ))}
         </KanbanColumn>
         <KanbanColumn className="column-done" title="已完成">
-          {doneList.map((props, index) => (
-            <KanbanCard key={index} {...props} />
+          {doneList.map((props) => (
+            <KanbanCard key={props.title} {...props} />
           ))}
         </KanbanColumn>
       </KanbanBoard>
