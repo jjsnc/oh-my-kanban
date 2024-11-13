@@ -23,8 +23,8 @@ const kanbanCardStyles = css`
   list-style: none;
   background-color: rgba(255，255，255, 0.4);
   text-align: left;
-  &:hover{
-    box-shadow: 0 0.2rem 0.2rem rgba(0,0,0,0.2),inset 0 1px #fff;
+  &:hover {
+    box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.2), inset 0 1px #fff;
   }
 `;
 
@@ -64,7 +64,6 @@ const KanbanNewCard = ({ onSubmit }) => {
     <li css={kanbanCardStyles}>
       <h3>添加新卡片</h3>
       <div
-     
         css={css`
           ${kanbanCardTitleStyles} &>input[type="text"] {
             width: 80%;
@@ -95,17 +94,21 @@ const KanbanBoard = ({ children }) => (
     {children}
   </main>
 );
-
-const KanbanColumn = ({ title, className, children }) => {
+const COLUMN_BG_COLORS = {
+  todo: "#C9AF97",
+  ongoing: "#FFE799",
+  done: "#COE8BA",
+};
+const KanbanColumn = ({ title, bgColor, children }) => {
   return (
     <section
-      className={className}
       css={css`
         flex: 1 1;
         display: flex;
         flex-direction: column;
         border: 1px solid gray;
         border-radius: 1rem;
+        background: ${bgColor};
         & > ul {
           flex: 1;
           flex-basis: 0;
@@ -163,7 +166,7 @@ function App() {
       </header>
       <KanbanBoard>
         <KanbanColumn
-          className="column-todo"
+          bgColor={COLUMN_BG_COLORS.todo}
           title={
             <>
               待处理<button onClick={handleAdd}>&#8853; 添加新卡片</button>
@@ -175,12 +178,12 @@ function App() {
             <KanbanCard key={props.title} {...props} />
           ))}
         </KanbanColumn>
-        <KanbanColumn className="column-ongoing" title="进行中">
+        <KanbanColumn bgColor={COLUMN_BG_COLORS.ongoing} title="进行中">
           {ongoingList.map((props) => (
             <KanbanCard key={props.title} {...props} />
           ))}
         </KanbanColumn>
-        <KanbanColumn className="column-done" title="已完成">
+        <KanbanColumn bgColor={COLUMN_BG_COLORS.done} title="已完成">
           {doneList.map((props) => (
             <KanbanCard key={props.title} {...props} />
           ))}
