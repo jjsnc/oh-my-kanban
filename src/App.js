@@ -15,7 +15,7 @@ const doneList = [
   { title: "测试任务-1", status: "22-05-22 18:15" },
 ];
 
-const kanbanCardstyles = css`
+const kanbanCardStyles = css`
   margin-bottom: 1rem;
   padding: 0.6rem 1rem;
   border: 1px solid gray;
@@ -23,6 +23,9 @@ const kanbanCardstyles = css`
   list-style: none;
   background-color: rgba(255，255，255, 0.4);
   text-align: left;
+  &:hover{
+    box-shadow: 0 0.2rem 0.2rem rgba(0,0,0,0.2),inset 0 1px #fff;
+  }
 `;
 
 const kanbanCardTitleStyles = css`
@@ -31,7 +34,7 @@ const kanbanCardTitleStyles = css`
 
 const KanbanCard = ({ title, status }) => {
   return (
-    <li css={kanbanCardstyles}>
+    <li css={kanbanCardStyles}>
       <div css={kanbanCardTitleStyles}>{title}</div>
       <div
         css={css`
@@ -58,7 +61,7 @@ const KanbanNewCard = ({ onSubmit }) => {
     }
   };
   return (
-    <li css={kanbanCardstyles}>
+    <li css={kanbanCardStyles}>
       <h3>添加新卡片</h3>
       <div
      
