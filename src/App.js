@@ -48,6 +48,16 @@ const KanbanNewCard = ({ onSubmit }) => {
   );
 };
 
+const KanbanBoard = ({ children }) => (
+  <main className="kanban-board">{children}</main>
+);
+
+const KanbanColumn = ({ className, children }) => {
+  const combinedClassName = `kanban-column ${className}`;
+
+  return <section className={combinedClassName}>{children}</section>;
+};
+
 function App() {
   const [showAdd, setShowAdd] = useState(false);
 
@@ -73,35 +83,35 @@ function App() {
         <h1>我的看板</h1>
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      <main className="kanban-board">
-        <section className="kanban-column column-todo">
+      <KanbanBoard>
+        <KanbanColumn className="column-todo">
           <h2>
             待处理<button onClick={handleAdd}>&#8853; 添加新卡片</button>
           </h2>
           <ul>
             {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
-            {todoList.map((props) => (
-              <KanbanCard {...props} />
+            {todoList.map((props,index) => (
+              <KanbanCard key={index} {...props} />
             ))}
           </ul>
-        </section>
-        <section className="kanban-column column-ongoing">
+        </KanbanColumn>
+        <KanbanColumn className="column-ongoing">
           <h2>进行中</h2>
           <ul>
-            {ongoingList.map((props) => (
-              <KanbanCard {...props} />
+            {ongoingList.map((props,index) => (
+              <KanbanCard key={index} {...props} />
             ))}
           </ul>
-        </section>
-        <section className="kanban-column column-done">
+        </KanbanColumn>
+        <KanbanColumn className="column-done">
           <h2>已完成</h2>
           <ul>
-            {doneList.map((props) => (
-              <KanbanCard {...props} />
+            {doneList.map((props,index) => (
+              <KanbanCard key={index} {...props} />
             ))}
           </ul>
-        </section>
-      </main>
+        </KanbanColumn>
+      </KanbanBoard>
     </div>
   );
 }
