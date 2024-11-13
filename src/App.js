@@ -52,10 +52,15 @@ const KanbanBoard = ({ children }) => (
   <main className="kanban-board">{children}</main>
 );
 
-const KanbanColumn = ({ className, children }) => {
+const KanbanColumn = ({ title, className, children }) => {
   const combinedClassName = `kanban-column ${className}`;
 
-  return <section className={combinedClassName}>{children}</section>;
+  return (
+    <section className={combinedClassName}>
+      <h2>{title}</h2>
+      <ul>{children}</ul>
+    </section>
+  );
 };
 
 function App() {
@@ -84,32 +89,28 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
       </header>
       <KanbanBoard>
-        <KanbanColumn className="column-todo">
-          <h2>
-            待处理<button onClick={handleAdd}>&#8853; 添加新卡片</button>
-          </h2>
-          <ul>
-            {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
-            {todoList.map((props,index) => (
-              <KanbanCard key={index} {...props} />
-            ))}
-          </ul>
+        <KanbanColumn
+          className="column-todo"
+          title={
+            <>
+              待处理<button onClick={handleAdd}>&#8853; 添加新卡片</button>
+            </>
+          }
+        >
+          {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
+          {todoList.map((props, index) => (
+            <KanbanCard key={index} {...props} />
+          ))}
         </KanbanColumn>
-        <KanbanColumn className="column-ongoing">
-          <h2>进行中</h2>
-          <ul>
-            {ongoingList.map((props,index) => (
-              <KanbanCard key={index} {...props} />
-            ))}
-          </ul>
+        <KanbanColumn className="column-ongoing" title="进行中">
+          {ongoingList.map((props, index) => (
+            <KanbanCard key={index} {...props} />
+          ))}
         </KanbanColumn>
-        <KanbanColumn className="column-done">
-          <h2>已完成</h2>
-          <ul>
-            {doneList.map((props,index) => (
-              <KanbanCard key={index} {...props} />
-            ))}
-          </ul>
+        <KanbanColumn className="column-done" title="已完成">
+          {doneList.map((props, index) => (
+            <KanbanCard key={index} {...props} />
+          ))}
         </KanbanColumn>
       </KanbanBoard>
     </div>
