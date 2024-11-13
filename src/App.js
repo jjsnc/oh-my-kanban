@@ -1,7 +1,17 @@
-import React, { useState } from "react";
+/** @jsxImportSource @emotion/react */
 
+import React, { useState } from "react";
+import { css } from "@emotion/react";
 import logo from "./logo.svg";
 import "./App.css";
+
+const KanbanBoardStyle = css`
+  flex: 10;
+  display: flex;
+  flex-direction: row;
+  gap: lrem;
+  margin: 0 lrem lrem;
+`;
 
 const ongoingList = [
   { title: "开发任务-4", status: "22-05-22 18:15" },
@@ -49,7 +59,7 @@ const KanbanNewCard = ({ onSubmit }) => {
 };
 
 const KanbanBoard = ({ children }) => (
-  <main className="kanban-board">{children}</main>
+  <main css={KanbanBoardStyle}>{children}</main>
 );
 
 const KanbanColumn = ({ title, className, children }) => {
@@ -98,12 +108,12 @@ function App() {
           }
         >
           {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
-          {todoList.map((props, ) => (
+          {todoList.map((props) => (
             <KanbanCard key={props.title} {...props} />
           ))}
         </KanbanColumn>
         <KanbanColumn className="column-ongoing" title="进行中">
-          {ongoingList.map((props, ) => (
+          {ongoingList.map((props) => (
             <KanbanCard key={props.title} {...props} />
           ))}
         </KanbanColumn>
