@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import logo from "./logo.svg";
 import "./App.css";
 
 const ongoingList = [
-  { title: "开发任务-4", status: "22-05-22 18:15" },
-  { title: "开发任务-6", status: "22-05-22 18:15" },
-  { title: "测试任务-2", status: "22-05-22 18:15" },
+  { title: "开发任务-4", status: "2024-11-13 18:15" },
+  { title: "开发任务-6", status: "2024-11-13 18:15" },
+  { title: "测试任务-2", status: "2024-11-13 18:15" },
 ];
 const doneList = [
-  { title: "开发任务-2", status: "22-05-22 18:15" },
-  { title: "测试任务-1", status: "22-05-22 18:15" },
+  { title: "开发任务-2", status: "2024-11-13 18:15" },
+  { title: "测试任务-1", status: "2024-11-13 18:15" },
 ];
 
 const kanbanCardStyles = css`
@@ -32,7 +32,34 @@ const kanbanCardTitleStyles = css`
   min-height: 3rem;
 `;
 
+const MINUTE = 60 * 1000;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+const UPDATE_INTERVAL = MINUTE;
+
 const KanbanCard = ({ title, status }) => {
+  const [displayTime, setDisplayTime] = useState(status);
+  useEffect(() => {
+    console.log(999)
+    const updateDisplayTime = () => {
+      const timePassed = new Date() - new Date(status);
+      let relativeTime = "刚刚";
+      if (MINUTE <= timePassed && timePassed < HOUR) {
+        relativeTime = `${Math.ceil(timePassed / MINUTE)} 分钟前`;
+      } else if (HOUR <= timePassed && timePassed < DAY) {
+        relativeTime = `${Math.ceil(timePassed / HOUR)} 小时前`;
+      } else if (DAY <= timePassed) {
+        relativeTime = `${Math.ceil(timePassed / DAY)} 天前`;
+      }
+      setDisplayTime(relativeTime);
+    };
+    const intervalId = setInterval(updateDisplayTime, UPDATE_INTERVAL);
+    updateDisplayTime();
+    return function cleanup() {
+      clearInterval(intervalId);
+    };
+  }, [status]);
+
   return (
     <li css={kanbanCardStyles}>
       <div css={kanbanCardTitleStyles}>{title}</div>
@@ -43,7 +70,7 @@ const KanbanCard = ({ title, status }) => {
           color: #333;
         `}
       >
-        {status}
+        {displayTime}
       </div>
     </li>
   );
@@ -143,10 +170,10 @@ function App() {
   const [showAdd, setShowAdd] = useState(false);
 
   const [todoList, setTodoList] = useState([
-    { title: "开发任务-1", status: "22-05-22 18:15" },
-    { title: "开发任务-3", status: "22-05-22 18:15" },
-    { title: "开发任务-5", status: "22-05-22 18:15" },
-    { title: "测试任务-3", status: "22-05-22 18:15" },
+    { title: "开发任务-1", status: "2024-11-13 18:15" },
+    { title: "开发任务-3", status: "2024-11-13 18:15" },
+    { title: "开发任务-5", status: "2024-11-13 18:15" },
+    { title: "测试任务-3", status: "2024-11-13 18:15" },
   ]);
   const handleAdd = (evt) => {
     setShowAdd(true);
