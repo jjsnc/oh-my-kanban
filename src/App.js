@@ -128,9 +128,28 @@ const COLUMN_BG_COLORS = {
   ongoing: "#FFE799",
   done: "#COE8BA",
 };
+const DATA_STORE_KEY = "kanban-data-store";
+const COLUMN_KEY_TODO = "todo";
+const COLUMN_KEY_ONGOING = "ongoing";
+const COLUMN_KEY_DONE = "done";
+
 const KanbanColumn = ({ title, bgColor, children }) => {
   return (
     <section
+      onDragOver={(evt) => {
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = "move";
+      }}
+      onDragLeave={(evt) => {
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = "none";
+      }}
+      onDrop={(evt) => {
+        evt.preventDefault();
+      }}
+      onDragEnd={(evt) => {
+        evt.preventDefault();
+      }}
       css={css`
         flex: 1 1;
         display: flex;
@@ -167,8 +186,6 @@ const KanbanColumn = ({ title, bgColor, children }) => {
     </section>
   );
 };
-
-const DATA_STORE_KEY = "kanban-data-store";
 
 function App() {
   const [showAdd, setShowAdd] = useState(false);
@@ -222,7 +239,10 @@ function App() {
       ...currentTodoList,
     ]);
   };
-
+  const [draggedItem, setDraggedItem] = useState(null);
+  const [dragSource, setDragSource] = useState(null);
+  const [dragTarget, setDragTarget] = useState(null);
+  
   return (
     <div className="App">
       <header className="App-header">
