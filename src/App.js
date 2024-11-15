@@ -48,9 +48,12 @@ const KanbanCard = ({ title, status }) => {
       clearInterval(intervalId);
     };
   }, [status]);
-
+  const handleDragStart = (evt) => {
+    evt.dataTransfer.effectAllowed = "move";
+    evt.dataTransfer.setData("text/plain", title);
+  };
   return (
-    <li css={kanbanCardStyles}>
+    <li css={kanbanCardStyles} draggable onDragStart={handleDragStart}>
       <div css={kanbanCardTitleStyles}>{title}</div>
       <div
         css={css`
