@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import logo from "./logo.svg";
 import "./App.css";
@@ -40,7 +40,6 @@ const UPDATE_INTERVAL = MINUTE;
 const KanbanCard = ({ title, status }) => {
   const [displayTime, setDisplayTime] = useState(status);
   useEffect(() => {
-
     const updateDisplayTime = () => {
       const timePassed = new Date() - new Date(status);
       let relativeTime = "刚刚";
@@ -78,6 +77,9 @@ const KanbanCard = ({ title, status }) => {
 
 const KanbanNewCard = ({ onSubmit }) => {
   const [title, setTitle] = useState("");
+
+  const inputElem = useRef(null);
+
   const handleChange = (evt) => {
     setTitle(evt.target.value);
   };
@@ -87,6 +89,11 @@ const KanbanNewCard = ({ onSubmit }) => {
       onSubmit(title);
     }
   };
+
+  useEffect(() => {
+    inputElem.current.focus();
+  }, []);
+
   return (
     <li css={kanbanCardStyles}>
       <h3>添加新卡片</h3>
@@ -98,6 +105,7 @@ const KanbanNewCard = ({ onSubmit }) => {
         `}
       >
         <input
+          ref={inputElem}
           type="text"
           value={title}
           onChange={handleChange}
