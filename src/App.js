@@ -40,7 +40,7 @@ const UPDATE_INTERVAL = MINUTE;
 const KanbanCard = ({ title, status }) => {
   const [displayTime, setDisplayTime] = useState(status);
   useEffect(() => {
-    console.log(999)
+
     const updateDisplayTime = () => {
       const timePassed = new Date() - new Date(status);
       let relativeTime = "刚刚";
