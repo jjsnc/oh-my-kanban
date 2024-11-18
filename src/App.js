@@ -1,29 +1,14 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import logo from "./logo.svg";
 import "./App.css";
 import { KanbanBoard } from "./KanbanBoard";
 import { KanbanColumn } from "./KanbanColumn";
 import { KanbanCard } from "./KanbanCard";
+import { KanbanNewCard } from "./KanbanNewCard";
 
-export const kanbanCardStyles = css`
-  margin-bottom: 1rem;
-  padding: 0.6rem 1rem;
-  border: 1px solid gray;
-  border-radius: 1rem;
-  list-style: none;
-  background-color: rgba(255，255，255, 0.4);
-  text-align: left;
-  &:hover {
-    box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.2), inset 0 1px #fff;
-  }
-`;
-
-export const kanbanCardTitleStyles = css`
-  min-height: 3rem;
-`;
 const COLUMN_BG_COLORS = {
   loading: "#e3e3e3",
   todo: "#C9AF97",
@@ -32,47 +17,6 @@ const COLUMN_BG_COLORS = {
 };
 
 
-
-const KanbanNewCard = ({ onSubmit }) => {
-  const [title, setTitle] = useState("");
-
-  const inputElem = useRef(null);
-
-  const handleChange = (evt) => {
-    setTitle(evt.target.value);
-  };
-
-  const handleKeyDown = (evt) => {
-    if (evt.key === "Enter") {
-      onSubmit(title);
-    }
-  };
-
-  useEffect(() => {
-    inputElem.current.focus();
-  }, []);
-
-  return (
-    <li css={kanbanCardStyles}>
-      <h3>添加新卡片</h3>
-      <div
-        css={css`
-          ${kanbanCardTitleStyles} &>input[type="text"] {
-            width: 80%;
-          }
-        `}
-      >
-        <input
-          ref={inputElem}
-          type="text"
-          value={title}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-      </div>
-    </li>
-  );
-};
 
 const DATA_STORE_KEY = "kanban-data-store";
 const COLUMN_KEY_TODO = "todo";
