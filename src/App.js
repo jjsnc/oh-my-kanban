@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import logo from "./logo.svg";
 import "./App.css";
+import { KanbanBoard } from "./KanbanBoard";
 
 const kanbanCardStyles = css`
   margin-bottom: 1rem;
@@ -73,20 +74,6 @@ const KanbanNewCard = ({ onSubmit }) => {
     </li>
   );
 };
-
-const KanbanBoard = ({ children }) => (
-  <main
-    css={css`
-      flex: 10;
-      display: flex;
-      flex-direction: row;
-      gap: 1rem;
-      margin: 0 1rem 1rem;
-    `}
-  >
-    {children}
-  </main>
-);
 
 const KanbanColumn = ({
   children,
