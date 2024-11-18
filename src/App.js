@@ -6,8 +6,9 @@ import logo from "./logo.svg";
 import "./App.css";
 import { KanbanBoard } from "./KanbanBoard";
 import { KanbanColumn } from "./KanbanColumn";
+import { KanbanCard } from "./KanbanCard";
 
-const kanbanCardStyles = css`
+export const kanbanCardStyles = css`
   margin-bottom: 1rem;
   padding: 0.6rem 1rem;
   border: 1px solid gray;
@@ -20,7 +21,7 @@ const kanbanCardStyles = css`
   }
 `;
 
-const kanbanCardTitleStyles = css`
+export const kanbanCardTitleStyles = css`
   min-height: 3rem;
 `;
 const COLUMN_BG_COLORS = {
@@ -30,10 +31,7 @@ const COLUMN_BG_COLORS = {
   done: "#COE8BA",
 };
 
-const MINUTE = 60 * 1000;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
-const UPDATE_INTERVAL = MINUTE;
+
 
 const KanbanNewCard = ({ onSubmit }) => {
   const [title, setTitle] = useState("");
@@ -76,47 +74,6 @@ const KanbanNewCard = ({ onSubmit }) => {
   );
 };
 
-const KanbanCard = ({ title, status, onDragStart }) => {
-  const [displayTime, setDisplayTime] = useState(status);
-  useEffect(() => {
-    const updateDisplayTime = () => {
-      const timePassed = new Date() - new Date(status);
-      let relativeTime = "刚刚";
-      if (MINUTE <= timePassed && timePassed < HOUR) {
-        relativeTime = `${Math.ceil(timePassed / MINUTE)} 分钟前`;
-      } else if (HOUR <= timePassed && timePassed < DAY) {
-        relativeTime = `${Math.ceil(timePassed / HOUR)} 小时前`;
-      } else if (DAY <= timePassed) {
-        relativeTime = `${Math.ceil(timePassed / DAY)} 天前`;
-      }
-      setDisplayTime(relativeTime);
-    };
-    const intervalId = setInterval(updateDisplayTime, UPDATE_INTERVAL);
-    updateDisplayTime();
-    return function cleanup() {
-      clearInterval(intervalId);
-    };
-  }, [status]);
-  const handleDragStart = (evt) => {
-    evt.dataTransfer.effectAllowed = "move";
-    evt.dataTransfer.setData("text/plain", title);
-    onDragStart && onDragStart(evt);
-  };
-  return (
-    <li css={kanbanCardStyles} draggable onDragStart={handleDragStart}>
-      <div css={kanbanCardTitleStyles}>{title}</div>
-      <div
-        css={css`
-          text-align: right;
-          font-size: 0.8rem;
-          color: #333;
-        `}
-      >
-        {displayTime}
-      </div>
-    </li>
-  );
-};
 const DATA_STORE_KEY = "kanban-data-store";
 const COLUMN_KEY_TODO = "todo";
 const COLUMN_KEY_ONGOING = "ongoing";
