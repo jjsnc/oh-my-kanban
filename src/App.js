@@ -27,10 +27,6 @@ const COLUMN_BG_COLORS = {
   ongoing: "#FFE799",
   done: "#COE8BA",
 };
-const DATA_STORE_KEY = "kanban-data-store";
-const COLUMN_KEY_TODO = "todo";
-const COLUMN_KEY_ONGOING = "ongoing";
-const COLUMN_KEY_DONE = "done";
 
 const MINUTE = 60 * 1000;
 const HOUR = 60 * MINUTE;
@@ -92,26 +88,33 @@ const KanbanBoard = ({ children }) => (
   </main>
 );
 
-const KanbanColumn = ({ children, bgColor, title }) => {
+const KanbanColumn = ({
+  children,
+  bgColor,
+  title,
+  setIsDragSource = () => {},
+  setIsDragTarget = () => {},
+}) => {
   return (
     <section
+      onDragStart={() => setIsDragSource(true)}
       onDragOver={(evt) => {
         evt.preventDefault();
         evt.dataTransfer.dropEffect = "move";
-        console.log("onDragOver");
+        setIsDragTarget(true);
       }}
       onDragLeave={(evt) => {
         evt.preventDefault();
         evt.dataTransfer.dropEffect = "none";
-        console.log("onDragLeave");
+        setIsDragTarget(false);
       }}
       onDrop={(evt) => {
         evt.preventDefault();
-        console.log("onDrop");
       }}
       onDragEnd={(evt) => {
         evt.preventDefault();
-        console.log("onDragEnd");
+        setIsDragSource(false);
+        setIsDragTarget(false);
       }}
       css={css`
         flex: 1 1;
@@ -191,6 +194,10 @@ const KanbanCard = ({ title, status, onDragStart }) => {
     </li>
   );
 };
+const DATA_STORE_KEY = "kanban-data-store";
+const COLUMN_KEY_TODO = "todo";
+const COLUMN_KEY_ONGOING = "ongoing";
+const COLUMN_KEY_DONE = "done";
 
 function App() {
   const [showAdd, setShowAdd] = useState(false);
@@ -271,6 +278,12 @@ function App() {
                   待处理<button onClick={handleAdd}>&#8853; 添加新卡片</button>
                 </>
               }
+              setIsDragSource={(isSrc) =>
+                setDragSource(isSrc ? COLUMN_KEY_TODO : null)
+              }
+              setIsDragTarget={(isTgt) =>
+                setDragTarget(isTgt ? COLUMN_KEY_TODO : null)
+              }
             >
               {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
               {todoList.map((props) => (
@@ -281,7 +294,16 @@ function App() {
                 />
               ))}
             </KanbanColumn>
-            <KanbanColumn bgColor={COLUMN_BG_COLORS.ongoing} title="进行中">
+            <KanbanColumn
+              bgColor={COLUMN_BG_COLORS.ongoing}
+              title="进行中"
+              setIsDragSource={(isSrc) =>
+                setDragSource(isSrc ? COLUMN_KEY_ONGOING : null)
+              }
+              setIsDragTarget={(isTgt) =>
+                setDragTarget(isTgt ? COLUMN_KEY_ONGOING : null)
+              }
+            >
               {ongoingList.map((props) => (
                 <KanbanCard
                   key={props.title}
@@ -290,7 +312,16 @@ function App() {
                 />
               ))}
             </KanbanColumn>
-            <KanbanColumn bgColor={COLUMN_BG_COLORS.done} title="已完成">
+            <KanbanColumn
+              bgColor={COLUMN_BG_COLORS.done}
+              title="已完成"
+              setIsDragSource={(isSrc) =>
+                setDragSource(isSrc ? COLUMN_KEY_DONE : null)
+              }
+              setIsDragTarget={(isTgt) =>
+                setDragTarget(isTgt ? COLUMN_KEY_DONE : null)
+              }
+            >
               {doneList.map((props) => (
                 <KanbanCard
                   key={props.title}
