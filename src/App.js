@@ -94,10 +94,13 @@ const KanbanColumn = ({
   title,
   setIsDragSource = () => {},
   setIsDragTarget = () => {},
+  onDrop
 }) => {
   return (
     <section
-      onDragStart={() => setIsDragSource(true)}
+      onDragStart={() => {
+        setIsDragSource(true);
+      }}
       onDragOver={(evt) => {
         evt.preventDefault();
         evt.dataTransfer.dropEffect = "move";
@@ -110,6 +113,7 @@ const KanbanColumn = ({
       }}
       onDrop={(evt) => {
         evt.preventDefault();
+        onDrop && onDrop(evt);
       }}
       onDragEnd={(evt) => {
         evt.preventDefault();
@@ -254,7 +258,24 @@ function App() {
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragSource, setDragSource] = useState(null);
   const [dragTarget, setDragTarget] = useState(null);
-
+  const handleDrop = (evt) => {
+    if (!draggedItem || !dragSource || !dragTarget || dragSource === dragTarget) {
+      return;
+    }
+    const updaters = {
+      [COLUMN_KEY_TODO]: setTodoList,
+      [COLUMN_KEY_ONGOING]: setOngoingList,
+      [COLUMN_KEY_DONE]: setDoneList
+    }
+    if (dragSource) {
+      updaters[dragSource]((currentStat) =>
+        currentStat.filter((item) => !Object.is(item, draggedItem))
+      );
+    }
+    if (dragTarget) {
+      updaters[dragTarget]((currentStat) => [draggedItem, ...currentStat]);
+    }
+  };
   return (
     <div className="App">
       <header className="App-header">
@@ -284,6 +305,7 @@ function App() {
               setIsDragTarget={(isTgt) =>
                 setDragTarget(isTgt ? COLUMN_KEY_TODO : null)
               }
+              onDrop={handleDrop}
             >
               {showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
               {todoList.map((props) => (
@@ -303,6 +325,7 @@ function App() {
               setIsDragTarget={(isTgt) =>
                 setDragTarget(isTgt ? COLUMN_KEY_ONGOING : null)
               }
+              onDrop={handleDrop}
             >
               {ongoingList.map((props) => (
                 <KanbanCard
@@ -321,6 +344,7 @@ function App() {
               setIsDragTarget={(isTgt) =>
                 setDragTarget(isTgt ? COLUMN_KEY_DONE : null)
               }
+              onDrop={handleDrop}
             >
               {doneList.map((props) => (
                 <KanbanCard
