@@ -16,8 +16,6 @@ const COLUMN_BG_COLORS = {
   done: "#COE8BA",
 };
 
-
-
 const DATA_STORE_KEY = "kanban-data-store";
 const COLUMN_KEY_TODO = "todo";
 const COLUMN_KEY_ONGOING = "ongoing";
@@ -79,14 +77,19 @@ function App() {
   const [dragSource, setDragSource] = useState(null);
   const [dragTarget, setDragTarget] = useState(null);
   const handleDrop = (evt) => {
-    if (!draggedItem || !dragSource || !dragTarget || dragSource === dragTarget) {
+    if (
+      !draggedItem ||
+      !dragSource ||
+      !dragTarget ||
+      dragSource === dragTarget
+    ) {
       return;
     }
     const updaters = {
       [COLUMN_KEY_TODO]: setTodoList,
       [COLUMN_KEY_ONGOING]: setOngoingList,
-      [COLUMN_KEY_DONE]: setDoneList
-    }
+      [COLUMN_KEY_DONE]: setDoneList,
+    };
     if (dragSource) {
       updaters[dragSource]((currentStat) =>
         currentStat.filter((item) => !Object.is(item, draggedItem))
