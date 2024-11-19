@@ -1,7 +1,7 @@
-/** @jsxImportSource @emotion/react */
+
 
 import React, { useState, useEffect } from "react";
-import { css } from "@emotion/react";
+
 import logo from "./logo.svg";
 import "./App.css";
 import { KanbanBoard } from "./KanbanBoard";
@@ -64,9 +64,11 @@ function App() {
   }, []);
 
 
-  const handleSubmit = (title) => {
+  const handleAdd = (newCard) => {
+
+
     setTodoList((currentTodoList) => [
-      { title, status: new Date().toDateString() },
+      newCard,
       ...currentTodoList,
     ]);
   };
@@ -125,7 +127,7 @@ function App() {
               setDraggedItem={setDraggedItem}
               cardList={todoList}
               canAddNew
-              onAdd={handleSubmit}
+              onAdd={handleAdd}
             ></KanbanColumn>
             <KanbanColumn
               bgColor={COLUMN_BG_COLORS.ongoing}

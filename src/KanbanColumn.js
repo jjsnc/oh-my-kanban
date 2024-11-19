@@ -51,8 +51,8 @@ export function KanbanColumn({
   const handleAdd = (evt) => {
     setShowAdd(true);
   };
-  const handleSubmit = (title) => {
-    onAdd && onAdd(title);
+  const handleSubmit = (newCard) => {
+    onAdd && onAdd(newCard);
     setShowAdd(false);
   };
   return (
@@ -89,7 +89,8 @@ export function KanbanColumn({
         {canAddNew && <button onClick={handleAdd}>&#8853; 添加新卡片</button>}
       </h2>
       <ul>
-        {canAddNew && showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
+        { showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
+
         {cardList.map((props) => (
           <KanbanCard
             key={props.title}
