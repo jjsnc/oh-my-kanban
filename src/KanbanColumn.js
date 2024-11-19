@@ -89,7 +89,7 @@ export function KanbanColumn({
         {canAddNew && <button onClick={handleAdd}>&#8853; 添加新卡片</button>}
       </h2>
       <ul>
-        { showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
+        {canAddNew && showAdd && <KanbanNewCard onSubmit={handleSubmit} />}
 
         {cardList.map((props) => (
           <KanbanCard
