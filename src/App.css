@@ -17,6 +17,15 @@
   }
 }
 
+.App-header>h1>* {
+  margin-left: 1rem;
+}
+
+.App-header>h1>label {
+  font-size: initial;
+  font-weight: initial;
+}
+
 .App-header {
   flex: 1;
   margin: 1rem 1rem 0;
@@ -44,11 +53,3 @@
     transform: rotate(360deg);
   }
 }
-
-
-
-
-
-
-
-

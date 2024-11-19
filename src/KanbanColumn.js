@@ -36,7 +36,6 @@ const KanbanColumnStyles = css`
 `;
 
 export function KanbanColumn({
-  children,
   bgColor,
   title,
   setIsDragSource = () => {},
@@ -46,6 +45,7 @@ export function KanbanColumn({
   setDraggedItem,
   canAddNew = false,
   onAdd,
+  onRemove,
 }) {
   const [showAdd, setShowAdd] = useState(false);
   const handleAdd = (evt) => {
@@ -96,6 +96,7 @@ export function KanbanColumn({
             key={props.title}
             {...props}
             onDragStart={() => setDraggedItem(props)}
+            onRemove={onRemove}
           />
         ))}
       </ul>
