@@ -68,3 +68,25 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+
+
+oh-my-kanban
+├── build
+├── playwright-report         # 测试报告目录
+│   └── index.html            # HTML格式测试报告
+├── public
+├── src
+├── tests
+│   └── e2e                   # E2E测试目录
+│       └── example.spec.ts   # 测试用例文件
+├── tests-examples            # 测试用例的例子，看过就删了吧
+│   └── demo-todo-app.spec.ts
+├── LICENSE
+├── README.md
+├── package-lock.json
+├── package.json
+└── playwright.config.ts      # playwright的配置文件
