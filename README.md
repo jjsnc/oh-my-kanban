@@ -90,3 +90,14 @@ oh-my-kanban
 ├── package-lock.json
 ├── package.json
 └── playwright.config.ts      # playwright的配置文件
+
+
+
+
+
+
+npm run e2e:firefox -- --debug
+
+
+npm run e2e:chromium -- --debug
+

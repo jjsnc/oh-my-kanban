@@ -57,6 +57,7 @@ export function KanbanColumn({
   };
   return (
     <section
+      data-testid="todo-column"
       onDragStart={() => {
         setIsDragSource(true);
       }}
